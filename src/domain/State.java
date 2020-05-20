@@ -51,6 +51,7 @@ public abstract class State implements Cloneable, JsonSerializable {
 	public abstract Position[] applyMove(Move nextMove);
 
 	public abstract List<Move> getPossibleMoves();
+	
 	public abstract List<Move> getPossibleMoves(PlayerKind playerKind);
 
 	public abstract void undoMove(Move nextMove, Position[] eaten) ;

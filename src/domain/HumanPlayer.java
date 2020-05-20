@@ -2,6 +2,10 @@ package domain;
 
 import enums.PlayerKind;
 
+/* 
+ * feature not implemented yet
+ */
+
 public class HumanPlayer extends Player {
 
 	public HumanPlayer(String id, PlayerKind kind) {

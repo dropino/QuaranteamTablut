@@ -2,6 +2,10 @@ package domain;
 
 import enums.PlayerKind;
 
+/*
+ * feature not implemented yet
+ */
+
 public class RemotePlayer extends Player {
 
 	public RemotePlayer(String id, PlayerKind kind) {

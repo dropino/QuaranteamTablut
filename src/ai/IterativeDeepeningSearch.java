@@ -9,7 +9,6 @@ import domain.Move;
 import domain.Pair;
 import domain.Position;
 import domain.State;
-import domain.TablutBoard;
 import enums.GameState;
 import enums.PlayerKind;
 
@@ -28,16 +27,22 @@ public class IterativeDeepeningSearch implements ResearchAlgorithm {
 		
 	private Function<Pair<Long, Long>, Boolean> limit;
 	
+	private int nodesVisited;
 	
-	public IterativeDeepeningSearch(int minDepth, int maxDepth, Function<Pair<Long, Long>, Boolean> limit) {
+	private boolean usingTranspositionTable;
+	
+	public IterativeDeepeningSearch(int minDepth, int maxDepth, Function<Pair<Long, Long>, Boolean> limit, boolean usingTranspositionTable) {
 		this.minDepth = minDepth;
 		this.maxDepth = maxDepth;
 		this.limit = limit;
 		h = new HeuristicTablut();
+		nodesVisited = 0;
+		this.usingTranspositionTable = usingTranspositionTable;
 	}
 	
 	@Override
 	public Move getNextMove(State newState) {
+		TranspositionTable.getInstance().clear();
 		if (newState.getTurnOf() == PlayerKind.WHITE) {
 			mapMoves = new TreeMap<Integer, Move>(Collections.reverseOrder());
 			tempMoves = new TreeMap<Integer, Move>(Collections.reverseOrder());
@@ -74,12 +79,14 @@ public class IterativeDeepeningSearch implements ResearchAlgorithm {
 		
 			possibleMoves = mapMoves.values();
 		}
-		System.out.println("depth reached: " + currentMaxDepth);
+		System.out.println("depth reached: " + currentMaxDepth+", expanded nodes: "+nodesVisited);
 		
 		return currentBestMove;
 	}
 	
 	private int MaxValue(int depth, int alpha, int beta, State state, Collection<Move> firstLevelMoves) {
+		nodesVisited++;
+
 		//all'interuzione si ritorna un valore 
 		if (cutoff(depth, state)) {
 			return h.getStateValue(state) - depth;
@@ -89,20 +96,19 @@ public class IterativeDeepeningSearch implements ResearchAlgorithm {
 		v = Integer.MIN_VALUE;
 				
 		Collection<Move> moves = depth == currentMaxDepth ? firstLevelMoves : state.getPossibleMoves(PlayerKind.WHITE);
-		TablutBoard tb = (TablutBoard)state.getBoard();
 		
 		for (Move m : moves) {
 			Integer tmp = null;
 			
-			if (tb.getBlackPawnsInCentralCitadels().containsKey(m.getStarting()))
-			{
-				System.out.println("Checking black move " + m.toString());
-			}
-			
 			Position[] eaten = state.applyMove(m);
 			
-			tmp = MinValue(depth - 1, alpha, beta, state, null);
-			
+			//check in TT for value
+ 			if (usingTranspositionTable == false 
+ 					|| (  usingTranspositionTable == true && (tmp = TranspositionTable.getInstance().getValue(state.toString(), depth)) == null)) {
+				tmp = MinValue(depth - 1, alpha, beta, state, null);
+ 			}
+
+						
 			state.undoMove(m, eaten);
 			
 			//tmp strettamente maggiore di v altirmenti inserisce nella mappa anche i valori infiniti
@@ -117,18 +123,29 @@ public class IterativeDeepeningSearch implements ResearchAlgorithm {
 
 			v = Math.max(v, tmp);
 			if (v >= beta) {
+				//add new state to TT
+				if (usingTranspositionTable) {
+					TranspositionTable.getInstance().add(state.toString(), depth, v);
+				}	
 				return v;
 			}
 
 			alpha = Math.max(alpha, v);
 		}
-
+		
+		//add new state to TT
+		if (usingTranspositionTable) {
+			TranspositionTable.getInstance().add(state.toString(), depth, v);
+		}		
+		
 		return v;
 	
 
 	}
 
 	private int MinValue(int depth, int alpha, int beta, State state, Collection<Move> firstLevelMoves) {
+		nodesVisited++;
+
 		//all'interuzione si ritorna un valore 
 		if (cutoff(depth, state)) {
 			return h.getStateValue(state) + depth;
@@ -138,7 +155,11 @@ public class IterativeDeepeningSearch implements ResearchAlgorithm {
 		for (Move m : moves) {											
 			Integer tmp = null;
 			Position[] eaten = state.applyMove(m);
-			tmp=MaxValue(depth - 1, alpha, beta, state, null); 
+			
+ 			if (usingTranspositionTable == false 
+ 					|| (  usingTranspositionTable == true && (tmp = TranspositionTable.getInstance().getValue(state.toString(), depth)) == null)) {
+				tmp=MaxValue(depth - 1, alpha, beta, state, null); 
+ 			}
 			
 			state.undoMove(m, eaten);
 			
@@ -151,10 +172,20 @@ public class IterativeDeepeningSearch implements ResearchAlgorithm {
 			
 			v = Math.min(v,tmp);
 			if (v <= alpha) {
+				//add new state to TT
+				if (usingTranspositionTable) {
+					TranspositionTable.getInstance().add(state.toString(), depth, v);
+				}	
 				return v;
 			}
 			beta = Math.min(beta, v);
 		}
+		
+		//add new state to TT
+		if (usingTranspositionTable) {
+			TranspositionTable.getInstance().add(state.toString(), depth, v);
+		}
+		
 		return v;
 
 	}

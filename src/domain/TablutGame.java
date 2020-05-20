@@ -27,7 +27,9 @@ public class TablutGame extends Game {
 			System.out.println("[GAME LOOP] turno "+ p.getKind() + " time elapsed: " + (System.currentTimeMillis() - now));
 
 			System.out.println(state.toString());
-
+			
+			
+			
 			if (checkGameState())
 			{
 				return;

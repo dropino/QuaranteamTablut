@@ -12,6 +12,7 @@ public abstract class Board implements Cloneable, JsonSerializable{
 	private int dimX;
 	private int dimY;
 
+	
 	public Board(int dimX, int dimY) {
 		pawnBoard = new Pawn[dimX][dimY];
 		tileBoard = new Tile[dimX][dimY];
@@ -21,13 +22,13 @@ public abstract class Board implements Cloneable, JsonSerializable{
 
 	}
 	
+	
 	public Board(Pawn[][] pawnBoard, Tile[][] tileBoard) {
 		this.pawnBoard = pawnBoard;
 		this.tileBoard = tileBoard;
 		
 		this.dimX = tileBoard.length;
 		this.dimY = tileBoard[0].length;
-
 	}
 	
 	public int getDimX() {
@@ -54,13 +55,16 @@ public abstract class Board implements Cloneable, JsonSerializable{
 		this.tileBoard = tileBoard;
 	}
 	
+	
 	public void removePawn(int x, int y) {
 		pawnBoard[x][y] = Pawn.EMPTY;
 	}
 	
+	
 	public void removePawn(Position position) {
 		pawnBoard[position.getX()][position.getY()] = Pawn.EMPTY;
 	}
+	
 	
 	public Position[] applyMove(Move move) {
 		Pawn toMove = pawnBoard[move.getStartX()][move.getStartY()];
@@ -72,14 +76,17 @@ public abstract class Board implements Cloneable, JsonSerializable{
 		return null;
 	}
 	
+	
 	public Pawn getPawn(int x, int y) {
 		return pawnBoard[x][y];
 	}
+	
 	
 	public Tile getTile(int x, int y)
 	{
 		return tileBoard[x][y];
 	}
+	
 	
 	public Pawn getPawn(Position position) {
 		if (position == null)
@@ -87,16 +94,19 @@ public abstract class Board implements Cloneable, JsonSerializable{
 		return pawnBoard[position.getX()][position.getY()];
 	}
 	
+	
 	public Tile getTile(Position position) {
 		if (position == null)
 			return Tile.EMPTY;
 		return tileBoard[position.getX()][position.getY()];
 	}
 	
+	
 	public Board deepCopy() {
 		return this.clone();
 	}
 
+	
 	@Override
 	protected Board clone() {	
 		Board result = null;
@@ -110,10 +120,8 @@ public abstract class Board implements Cloneable, JsonSerializable{
 			 result.setPawnBoard(pawnBoard);
 			
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return result;
 	}
 

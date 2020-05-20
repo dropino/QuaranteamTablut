@@ -10,9 +10,7 @@ public class Node {
 	private String state;
 	private Node parent;
     private List<Node> childArray;
-    private Move usedMove;
-    
-    
+    private Move usedMove;   
     private int winScore;
     private int visitNumber;
 	private PlayerKind player;

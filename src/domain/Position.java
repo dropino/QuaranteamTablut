@@ -9,17 +9,21 @@ public class Position {
 		return x;
 	}
 	
+	
 	public void setX(int x) {
 		this.x = x;
 	}
+	
 	
 	public int getY() {
 		return y;
 	}
 	
+	
 	public void setY(int y) {
 		this.y = y;
 	}
+	
 	
 	public Position(int x, int y) {
 		super();
@@ -27,41 +31,42 @@ public class Position {
 		this.y = y;
 	}
 	
+	
 	public Position getNextPositionX(int xBound) {
 		if (x+1 >= xBound)
 		{
 			return null;
 		}
-		
 		return new Position(x+1, y);
 	}
+	
 	
 	public Position getNextPositionY(int yBound) {
 		if (y+1 >= yBound)
 		{
 			return null;
-		}
-		
+		}	
 		return new Position(x, y+1);
 	}
+	
 	
 	public Position getPreviousPositionX() {
 		if (x-1 < 0)
 		{
 			return null;
 		}
-		
 		return new Position(x-1, y);
 	}
+	
 	
 	public Position getPreviousPositionY() {
 		if (y-1 < 0)
 		{
 			return null;
 		}
-		
 		return new Position(x, y-1);
 	}
+	
 	
 	public Position[] getOrthogonalNeighbors(int xBound, int yBound) {
 		Position[] positions = new Position[4];
@@ -76,6 +81,7 @@ public class Position {
 		return positions;
 	}
 	
+	
 	public Position[] getHorizontalNeighbors(int xBound, int yBound) {
 		Position[] positions = new Position[2];
 	
@@ -87,6 +93,7 @@ public class Position {
 		return positions;
 	}
 	
+	
 	public Position[] getVerticalNeighbors(int xBound, int yBound) {
 		Position[] positions = new Position[2];
 		int idx = 0;
@@ -97,10 +104,12 @@ public class Position {
 		return positions;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return "[" + this.getX() + ", " + this.getY() + "]";
 	}
+	
 	
 	@Override
 	public int hashCode() {
@@ -110,6 +119,7 @@ public class Position {
 		return result;
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

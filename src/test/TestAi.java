@@ -13,7 +13,6 @@ import enums.PlayerKind;
 
 class TestAi {
 
-
 //	@Test
 //	void test_Alpha_Beta_Pruning_time_white() {
 //		List<Player> players = new ArrayList<Player>();
@@ -133,8 +132,8 @@ class TestAi {
 			else return false;
 		};
 		
-		players.add(new AiPlayer("TheQuaranteam", PlayerKind.WHITE, null, new IterativeDeepeningSearch(3, 11, f)));
-		players.add(new AiPlayer("Adversary", PlayerKind.BLACK, null, new IterativeDeepeningSearch(3, 11, f)));
+		players.add(new AiPlayer("TheQuaranteam", PlayerKind.WHITE, null, new IterativeDeepeningSearch(3, 11, f, true)));
+		players.add(new AiPlayer("Adversary", PlayerKind.BLACK, null, new IterativeDeepeningSearch(3, 11, f, false)));
 //		players.add(new AiPlayer("Adversary", PlayerKind.BLACK, null, new MCTSearch()));
 
 		

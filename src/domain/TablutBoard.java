@@ -17,30 +17,35 @@ public class TablutBoard extends Board {
 	public static int DIM = 9;
 	
 	private Position kingPosition = new Position(4, 4);
-	Map<Position, Boolean> blackPawnsInCentralCitadels = new HashMap<Position, Boolean>();
-	
+	Map<Position, Boolean> blackPawnsInCentralCitadels = new HashMap<Position, Boolean>();	
 	private int whitePawns = 8;
 	private int blackPawns = 16;
+	
 	
 	public int getWhitePawnNumber() {
 		return whitePawns;
 	}
 	
+	
 	public int getBlackPawnNumber() {
 		return blackPawns;
 	}
+	
 	
 	public Position getKingPosition() {
 		return kingPosition;
 	}
 
+	
 	public Map<Position, Boolean> getBlackPawnsInCentralCitadels() {
 		return blackPawnsInCentralCitadels;
 	}
 
+	
 	public TablutBoard() {
 		super(DIM, DIM);
 	}
+	
 	
 	public TablutBoard(Loader boardLoader, String source) {
 		super(DIM, DIM);
@@ -54,6 +59,7 @@ public class TablutBoard extends Board {
 		
 		initializeBlackPawnsInCentralCitadels();
 	}
+	
 
 	private void initializeBoard(Loader boardLoader, String source) {
 
@@ -64,13 +70,14 @@ public class TablutBoard extends Board {
 		initializeBlackPawnsInCentralCitadels();
 	}
 	
+	
 	private void initializeBlackPawnsInCentralCitadels() {
 		blackPawnsInCentralCitadels.put(new Position(4, 0), false);
 		blackPawnsInCentralCitadels.put(new Position(0, 4), false);
 		blackPawnsInCentralCitadels.put(new Position(4, 8), false);
 		blackPawnsInCentralCitadels.put(new Position(8, 4), false);
-
 	}
+	
 	
 	@Override
 	public Position[] applyMove(Move m) {
@@ -94,6 +101,7 @@ public class TablutBoard extends Board {
 		
 		return eaten;
 	}
+	
 	
 	@Override
 	public void undoMove(Move m, Position[] eaten) {
@@ -124,6 +132,7 @@ public class TablutBoard extends Board {
 		}
 	}
 	
+	
 	@Override
 	public void removePawn(Position position) {
 		
@@ -142,6 +151,7 @@ public class TablutBoard extends Board {
 		super.removePawn(position);
 	}
 	
+	
 	public Position[] getEatenPawns(Move move) {
 		Pawn moving = getPawnBoard()[move.getStartX()][move.getStartY()];
 		
@@ -159,6 +169,7 @@ public class TablutBoard extends Board {
 		return null;
 	}
 	
+	
 	public boolean surroundedAdiacentToCitadel(Position position) {
 		Position[] neighborsH = position.getHorizontalNeighbors(DIM, DIM);
 		Position[] neighborsV = position.getVerticalNeighbors(DIM, DIM);
@@ -168,6 +179,7 @@ public class TablutBoard extends Board {
 				|| (getPawn(neighborsV[0]) == Pawn.BLACK && getTile(neighborsV[1]) == Tile.CAMP)
 				|| (getPawn(neighborsV[1]) == Pawn.BLACK && getTile(neighborsV[0]) == Tile.CAMP);
 	}
+	
 	
 	public boolean surroundedOnX(Position position) {
 		Pawn type = getPawn(position);
@@ -180,9 +192,9 @@ public class TablutBoard extends Board {
 				surround++;
 			}
 		}
-		
 		return surround == 2;
 	}
+	
 	
 	public boolean surroundedOnY(Position position) {
 		Pawn type = getPawn(position);
@@ -198,6 +210,7 @@ public class TablutBoard extends Board {
 		
 		return surround == 2;
 	}
+	
 
 	public boolean isKingOnEscapeTile() {
 		if (getTile(kingPosition) == Tile.ESCAPE)
@@ -206,6 +219,7 @@ public class TablutBoard extends Board {
 		}
 		return false;
 	}
+	
 	
 	public int countKingSurrounded() {
 		int result = 0;
@@ -217,9 +231,9 @@ public class TablutBoard extends Board {
 				result++;
 			}
 		}
-		
 		return result;
 	}
+	
 	
 	public boolean isKingAdiacentToCastle() {
 		for(Position p : kingPosition.getOrthogonalNeighbors(DIM, DIM))
@@ -229,9 +243,9 @@ public class TablutBoard extends Board {
 				return true;
 			}
 		}
-		
 		return false;
 	}
+	
 
 	private Position[] getWhiteEatenPawns(Move move)
 	{
@@ -337,10 +351,12 @@ public class TablutBoard extends Board {
 		return idx == 0 ? null : eatenPawns;
 	}
 	
+	
 	public Pair<Integer, Integer> getPawnCount() {
 
 			return new Pair<Integer, Integer>(whitePawns, blackPawns);
 	}
+	
 	
 	@Override
 	public int getPawnCount(Pawn pawnType) {
@@ -370,12 +386,10 @@ public class TablutBoard extends Board {
 			}
 			builder.append("\n");
 		}
-				
-		
-		
-		return builder.toString();
-		
+
+		return builder.toString();	
 	}
+	
 	
     public Pair<Integer, Integer> getKingHalfBoardPawns() {
 
@@ -398,7 +412,6 @@ public class TablutBoard extends Board {
                     else if (getPawn(i, j).equals(Pawn.BLACK))
                         blackPawns++;
                 }
-
         }
         if (getKingPosition().getY() < 4) {
             for (int i = 0; i < 9; i++)
@@ -416,13 +429,12 @@ public class TablutBoard extends Board {
                     else if (getPawn(i, j).equals(Pawn.BLACK))
                         blackPawns++;
                 }
-
         }
         return new Pair<Integer, Integer>(whitePawns, blackPawns);
     }	
 	
+    
 	public boolean isKingInDanger() {
-
 		Position kingpos = getKingPosition();
 		int kingY = kingpos.getY();
 		int kingX = kingpos.getX();
@@ -446,7 +458,6 @@ public class TablutBoard extends Board {
 		else if ((kingX == 1 || kingX == 7) && (kingY == 5 || kingY == 3)) return true;
 
 		return false;
-
 	}
 
 	
@@ -456,7 +467,7 @@ public class TablutBoard extends Board {
 		int kingX = kingpos.getX();
 		
 		int x, y;
-		//se il percorso in orizzontale ï¿½ libero e non c'ï¿½ alcun accampamento
+		//se il percorso in orizzontale è libero e non c'è alcun accampamento
 		for (x = kingX  + 1; x < getDimX(); x++)
 			if (!getPawn(x, kingY).equals(Pawn.EMPTY) || (getTile(x, kingY) == Tile.CAMP)) break;
 		if (x == getDimX()) return true;
@@ -465,7 +476,7 @@ public class TablutBoard extends Board {
 			if (!getPawn(x, kingY).equals(Pawn.EMPTY) || ((getTile(x, kingY)==Tile.CAMP))) break;
 		if (x < 0) return true;
 		
-		//se il percorso in verticale ï¿½ libero e non c'ï¿½ alcun accampamento
+		//se il percorso in verticale è libero e non c'è alcun accampamento
 		for (y = kingY + 1; y < getDimY(); y++)
 			if (!getPawn(kingX, y).equals(Pawn.EMPTY) || (getTile(kingX, y)==Tile.CAMP)) break;
 		if (y == getDimX()) return true;
@@ -474,9 +485,10 @@ public class TablutBoard extends Board {
 			if (!getPawn(kingX, y).equals(Pawn.EMPTY) || (getTile(kingX, y)==Tile.CAMP)) break;
 		if (y < 0) return true;
 		
-		//altrimenti non ï¿½ pronto a vincere	
+		//altrimenti non è pronto a vincere	
 		return false;
 	}
+	
 	
 	public Pair<Integer, Integer> pawnsBlockingKingVictory() {
 		int kingY = kingPosition.getY();
@@ -506,23 +518,24 @@ public class TablutBoard extends Board {
 			if (postY < DIM && kingX != 1 && !getPawn(kingX, postY).equals(Pawn.EMPTY)) 
 				if (getPawn(kingX, postY) == Pawn.BLACK) blacks++;
 				else whites++;
-
 		}
-		
 		return new Pair<Integer, Integer>(whites, blacks);
 	}
 
+	
 	@Override
 	public String toJson() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 	@Override
 	public void fromJson(String jsonString) {
 		// TODO Auto-generated method stub
 	}
 
+	
 	@Override
 	public void fromJson(JsonObject obj) {
 		JsonArray jarr = obj.getAsJsonArray("board");
@@ -563,6 +576,7 @@ public class TablutBoard extends Board {
 			x++;
 		}
 	}
+	
 
 	@Override
 	public JsonObject toJsonObject() {

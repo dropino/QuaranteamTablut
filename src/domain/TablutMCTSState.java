@@ -45,9 +45,11 @@ public class TablutMCTSState extends TablutState {
 		else return PlayerKind.BLACK;
 	}
 	
+	
 	public TablutMCTSState deepCopy() {
 		return this.clone();
 	}
+	
 	
 	@Override
 	protected TablutMCTSState clone() {
@@ -81,8 +83,7 @@ public class TablutMCTSState extends TablutState {
 				newState.setGameState(GameState.DRAW);
 				break;
 			default:
-				break;
-				
+				break;	
 			}
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
@@ -90,5 +91,5 @@ public class TablutMCTSState extends TablutState {
 		
 		return newState;
 	}
-
+	
 }

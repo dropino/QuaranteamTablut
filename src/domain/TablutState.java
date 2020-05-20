@@ -96,9 +96,9 @@ public class TablutState extends State {
 			}//for y
 			
 		}//for x
-		
 		return result;
 	}
+	
 	
 	public boolean checkRepeatingBoardConfiguration(String current) {
 		boardHistory.trimToSize();
@@ -109,10 +109,10 @@ public class TablutState extends State {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 
+	
 	@Override
 	public Position[] applyMove(Move nextMove) {
 	
@@ -123,10 +123,10 @@ public class TablutState extends State {
 		updateGameState();
 				
 		this.setTurnOf(getTurnOf() == PlayerKind.WHITE ? PlayerKind.BLACK : PlayerKind.WHITE);
-		return eaten;
-		
+		return eaten;	
 	}
 
+	
 	private void updateGameState() {
 		TablutBoard tb = (TablutBoard) getBoard();
 		boolean kingCaptured = isKingCaptured();
@@ -168,11 +168,13 @@ public class TablutState extends State {
 		return false;
 	}
 
+	
 	@Override
 	public List<Move> getPossibleMoves() {
 		return getPossibleMoves(getTurnOf());
 	}
 
+	
 	@Override
 	public boolean hasWon(PlayerKind playerKind) {
 		switch(playerKind) {
@@ -191,18 +193,19 @@ public class TablutState extends State {
 			}
 			return false;
 		}
-		
-		
 		return false;
 	}
+	
 	
 	public String toString() {
 		return currentBoard;
 	}
 
+	
 	private void setCurrentBoard() {
 		currentBoard = this.getTurnOf() + "\n" + this.getBoard().toString();
 	}
+	
 	
 	@Override
 	public void undoMove(Move nextMove, Position[] eaten) {
@@ -213,16 +216,17 @@ public class TablutState extends State {
 		this.setGameState(GameState.PLAYING);
 		
 		this.setTurnOf(getTurnOf() == PlayerKind.WHITE ? PlayerKind.BLACK : PlayerKind.WHITE);
-		setCurrentBoard();
-			
+		setCurrentBoard();	
 	}
 
+	
 	@Override
 	public String toJson() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void fromJson(String jsonString) {
@@ -253,7 +257,6 @@ public class TablutState extends State {
 			case "\"DRAW\"": 
 				this.setGameState(GameState.DRAW);
 				break;
-		
 		}
 		
 		System.out.println("[TS] reading board...");
@@ -266,12 +269,14 @@ public class TablutState extends State {
 		System.out.println("[TS] DONE.");
 	}
 
+	
 	@Override
 	public void fromJson(JsonObject jsonObj) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	
 	@Override
 	public JsonObject toJsonObject() {
 		// TODO Auto-generated method stub

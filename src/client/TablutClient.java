@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import enums.GameState;
-import enums.Loader;
 import enums.PlayerKind;
 import utils.StreamUtils;
 import domain.AiPlayer;
@@ -80,7 +79,7 @@ public class TablutClient extends Client implements Runnable {
 			else return false;
 		};		
 		this.state = new TablutState(new TablutBoard());
-		this.player = new AiPlayer("TheQuaranteam", role, null, new IterativeDeepeningSearch(3, 11, f));
+		this.player = new AiPlayer("TheQuaranteam", role, null, new IterativeDeepeningSearch(3, 11, f, false));
 
 		
 		try {

@@ -9,9 +9,11 @@ public class AiPlayer extends Player {
 	private ResearchAlgorithm researchInitial;
 	private ResearchAlgorithm research;
 	
+	
 	public ResearchAlgorithm getResearch() {
 		return research;
 	}
+	
 	
 	public AiPlayer(String id, PlayerKind kind, ResearchAlgorithm researchInitial, ResearchAlgorithm research) {
 		super(id, kind);
@@ -20,6 +22,7 @@ public class AiPlayer extends Player {
 		this.researchInitial = researchInitial;
 	}
 
+	
 	@Override
 	public Move getNextMove(State newState) {
 		System.gc();

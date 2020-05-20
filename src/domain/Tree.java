@@ -1,6 +1,5 @@
 package domain;
 
-
 public class Tree {
     Node root;
     
@@ -14,8 +13,6 @@ public class Tree {
 
 	public void setRoot(Node root) {
 		this.root = root;
-	}
-    
-    
-    
+	}  
+   
 }

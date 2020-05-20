@@ -12,7 +12,7 @@ public class TranspositionTable extends LinkedHashMap<String, Pair<Integer, Inte
 	private static final long serialVersionUID = 1507589712717292051L;
 	//in the Pair Key is the depth, Value is the Value associated to the configuration by ABP
 	private static TranspositionTable instance = null;
-	private static int MAX_DIM = 500000;
+	private static int MAX_DIM = 4000000;
 	
 	public static TranspositionTable getInstance() {
 		if (instance == null)
