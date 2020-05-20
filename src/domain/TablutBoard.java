@@ -38,14 +38,21 @@ public class TablutBoard extends Board {
 		return blackPawnsInCentralCitadels;
 	}
 
+	public TablutBoard() {
+		super(DIM, DIM);
+	}
+	
 	public TablutBoard(Loader boardLoader, String source) {
 		super(DIM, DIM);
 		
 		initializeBoard(boardLoader, source);
 	}
+	
 
 	public TablutBoard(Pawn[][] pawnBoard, Tile[][] tileBoard) {
 		super(pawnBoard, tileBoard);
+		
+		initializeBlackPawnsInCentralCitadels();
 	}
 
 	private void initializeBoard(Loader boardLoader, String source) {
@@ -54,10 +61,15 @@ public class TablutBoard extends Board {
 		this.setPawnBoard(loader.getPawnBoardSetup());
 		this.setTileBoard(loader.getTileBoardSetup());
 		
+		initializeBlackPawnsInCentralCitadels();
+	}
+	
+	private void initializeBlackPawnsInCentralCitadels() {
 		blackPawnsInCentralCitadels.put(new Position(4, 0), false);
 		blackPawnsInCentralCitadels.put(new Position(0, 4), false);
 		blackPawnsInCentralCitadels.put(new Position(4, 8), false);
 		blackPawnsInCentralCitadels.put(new Position(8, 4), false);
+
 	}
 	
 	@Override

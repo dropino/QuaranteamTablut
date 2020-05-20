@@ -42,9 +42,11 @@ public class TablutClient extends Client implements Runnable {
 	public TablutClient(PlayerKind role, int timeOut, InetAddress ip) {
 		this.role = role;
 		this.roleToString = role == PlayerKind.WHITE ? "white" : "black";
-		this.timeOut = timeOut * 1000;
+		this.timeOut = (timeOut - 1) * 1000;
 		this.ip = ip;
 		this.gson = new Gson();
+		
+		System.out.println("Timeout in millis: " + this.timeOut);
 		
 		try {
 			System.out.println("Initializing connection with server... ");
@@ -55,38 +57,40 @@ public class TablutClient extends Client implements Runnable {
 		}
 		
 		try {
+			System.out.println("Creating Output stream...");
 			out = new DataOutputStream(playerSocket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 		try {
+			System.out.println("Creating Input stream...");
 			in = new DataInputStream(playerSocket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
 	}
 	
-	public void run() {
-		
-		try {
-			this.declareName();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+	public void run() {	
 		
 		Function<Pair<Long, Long>, Boolean> f = pair -> {
 			if((pair.getFirst() - pair.getSecond()) >= timeOut) 
 				return true; 
 			else return false;
-		};
-			
-		this.state = new TablutState(new TablutBoard(Loader.JSON, "resources/board.json"));
-		player = new AiPlayer("TheQuaranteam", role, null, new IterativeDeepeningSearch(3, 11, f));
-				
+		};		
+		this.state = new TablutState(new TablutBoard());
+		this.player = new AiPlayer("TheQuaranteam", role, null, new IterativeDeepeningSearch(3, 11, f));
+
+		
+		try {
+			System.out.println("Sending to server our name: " + player.getId());
+			this.declareName();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+						
 		while(true) {
 			try {
 				state.fromJson(readState(in)); 
