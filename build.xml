@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="QuaranteamTablut">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="/Applications/Eclipse.app/Contents/Eclipse/"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="10"/>
+    <property name="source" value="10"/>
+    <path id="JUnit 5.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.api_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.engine_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.migrationsupport_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.params_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.commons_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.engine_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.launcher_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.runner_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.suite.api_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.vintage.engine_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.opentest4j_1.2.0.v20190826-0900.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.apiguardian_1.1.0.v20190826-0900.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.13.0.v20200204-1500.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    </path>
+    <path id="QuaranteamTablut.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+        <pathelement location="resources/json-20190722.jar"/>
+        <pathelement location="resources/gson-2.8.6.jar"/>
+    </path>
+    <path id="run.TestAi.classpath">
+        <path refid="QuaranteamTablut.classpath"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+        <pathelement location="resources/json-20190722.jar"/>
+        <pathelement location="resources/gson-2.8.6.jar"/>
+    </path>
+    <path id="run.TestDomain.classpath">
+        <path refid="QuaranteamTablut.classpath"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+        <pathelement location="resources/json-20190722.jar"/>
+        <pathelement location="resources/gson-2.8.6.jar"/>
+    </path>
+    <path id="run.TheQuaranteamMain.classpath">
+        <path refid="QuaranteamTablut.classpath"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+        <pathelement location="resources/json-20190722.jar"/>
+        <pathelement location="resources/gson-2.8.6.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.xtend"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="QuaranteamTablut.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="TestAi">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.TestAi" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.TestAi.classpath"/>
+        </junit>
+    </target>
+    <target name="TestDomain">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.TestDomain" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.TestDomain.classpath"/>
+        </junit>
+    </target>
+    <target name="TheQuaranteamMain">
+        <java classname="main.TheQuaranteamMain" failonerror="true" fork="yes">
+            <arg line="white 60 localhost"/>
+            <classpath refid="run.TheQuaranteamMain.classpath"/>
+        </java>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
