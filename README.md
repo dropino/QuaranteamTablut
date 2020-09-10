@@ -1,6 +1,6 @@
 # TheQuaranteam Tablut Agent
 
-This is an AI that plays Tablut (with Ashton rules) made by [Nicholas Carroll](https://github.com/dropino) and [Laura Mazzuca](https://github.com/lauramazzuca21) to participate in the [annual challenge](http://ai.unibo.it/games/boardgamecompetition) for our University course "Foundations of Artificial Intelligence".  
+This is an AI that plays the ancient board game Tablut (with Ashton rules) made by [Nicholas Carroll](https://github.com/dropino) and [Laura Mazzuca](https://github.com/lauramazzuca21) to participate in the [annual challenge](http://ai.unibo.it/games/boardgamecompetition) for our University course "Foundations of Artificial Intelligence".  
 
 It runs using Iterative Deepening Alpha-Beta search.
 
